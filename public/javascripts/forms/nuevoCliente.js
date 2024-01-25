@@ -1,3 +1,7 @@
+    
+   
+    
+    let prop = ["Propia","Rentada","Prestada","de los Padres"]
     let edos = ["Aguascalientes","Baja California","Baja California Sur","Campeche","Cohuila","Colima","Chiapas","Chihuahua","CDMX","Durango","Guanajuato","Guerrero","Hidalgo","Jalisco","México","Michoacan","Morelos","Nayarit","Nuevo León","Oaxaca","Puebla","Queretaro","Quintana Roo","San Luis Potosí","Sinaloa","Sonora","Tabasco","Tamaulipas","--29--","Veracruz","Yucatán","Zacatecas"]
     let $nuevoCli = _div("nuevoCliente","ventanaMain")
     let $form1 = $("<form>").attr({"id":"nCli","action":"Javascript:valida()"})
@@ -6,16 +10,24 @@
     let $fs3 = $("<fielset>").addClass("fotos").html("<h3>Evidencias Fotograficas</h3><br>")
     
     $fs1.append(_inp("text","nombre","enlinea imp w200","Nombre",true)).append(_inp("text","paterno","enlinea imp w200","Apellido Paterno",true))
-    .append(_inp("text","materno","enlinea imp w200","Apelllido Materno",true)).append(_inp("date","fecha_nac","enlinea w150","Fecha de Nacimiento",true))
-    .append(_inp("tel","tel","enlinea w100","999-9999999",true)).append(_selec("ent","ent",edos,10))
+    .append(_inp("text","materno","enlinea imp w200","Apelllido Materno",true)).append($("<div>").addClass("grupo").append($("<label>").html("Fecha de Nacimiento: ")).append(_inp("date","fecha_nac","enlinea w150","Fecha de Nacimiento",true)))       
+    .append($("<div>").addClass("grupo").append($("<label>").html("Lugar de Nacimiento: ")).append(_selec("ent","ent",edos,10))).append(_inp("tel","tel","enlinea w100","Num. Teléfono",true))
     .append(_inp("text","cveElector","enlinea w150","Clave de Elector",true)).append(_div("fileuploader","subirCredencial enlinea","Arrastre  y suelte la imagen de la credencial"))
     
     $fs2.append(_inp("text","calle","enlinea w300","Calle, Avenida, Carretera, etc",true)).append(_inp("number","num_ext","enlinea  w100","Num ext",true))
     .append(_inp("text","num_int","enlinea  w100","Num int",true)).append(_inp("text","cp","enlinea w100","Código Postal",true))
-    .append($("<select>").attr({"name":"colonias","id":"col"}).addClass("enlinea w150"))
+    .append($("<select>").html("<option>Colonia</option>").attr({"name":"colonias","id":"col"}).addClass("enlinea w150")).append($("<div>").addClass("grupo").append($("<label>").html("Propiedad: ")).append(_selec("prop","ent",prop,1)))
+    .append(_inp("number","antiguedad","enlinea w100","Antigüedad",true)).append($("<div>").addClass("grupo").append($("<label>").html("Ubicación: ")).append(_inp("text","ubi","enlinea w200","Latitud , Longitud",false)).append($("<span>").addClass("material-symbols-outlined simbolMap").html("home_pin")))
+    .append(_div("mapaUbi","mapaUbi","Mapa para ubicar").toggle())
     //.append(_div("mapModal","mapModal",_div("ubi-map","ubi-map",$("<iframe>").attr({"src":"https://www.google.com.mx/maps/@21.8787097,-102.2836594,9311m/data=!3m1!1e3?entry=ttu","WIDTH":"100%","HEIGTH":"100%"}))))
     $fs3.append(_div("upload-evidencias","upload","Subir Evidencias"))
-    $form1.append($fs1).append($fs2).append($fs3).append(_inp("button","guardar","btnGuardar","",true,"Enviar"))
+
+
+    /*-*-*-*-**-*-*-*-*-*   P E S T A Ñ A S  -*-*-*-*-*-*-*-*-**/    
+    let $tmp = _div("tab-contaier","tab-contaier","")
+    Array(Array("Datos Personales",$fs1),Array("Domicilio",$fs2),Array("Evidencias Fotográficas",$fs3)).forEach((e,i,a)=>{ $tmp.append(_div(`tab${i+1}`,"tab",`<a id="a${i+1}" href="#tab${i+1}">${e[0]}</a>`).append(_div(`tc${i+1}`,"tab-content",e[1]))) })
+    let  $pestañas = _div("tabs","tabs",$tmp)
+    $form1.html($pestañas).append(_inp("submit","guardar","btnGuardar","",true,"Enviar"))
     $nuevoCli.html($form1)
 
 

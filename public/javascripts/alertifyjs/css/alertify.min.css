@@ -227,9 +227,9 @@
 .alertify.ajs-maximized .ajs-body .ajs-content,.alertify.ajs-resizable .ajs-body .ajs-content
 {position:absolute;
     top:50px;
-    right:24px;
+    right:2px;
     bottom:50px;
-    left:24px;
+    left:2px;
     overflow:auto
 }
 

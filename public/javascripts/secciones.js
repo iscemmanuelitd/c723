@@ -3,13 +3,13 @@ var d=null
 
 function _sec(_i){
     let $divTot = $("<div>");
-    $.post("/cliente/newID",{}).done((obj)=>{    
+    $.post("/cliente/newID",{}).done(async (obj)=>{    
             switch(parseInt(_i)){
                 case 0:return "Inicio";
                 case 1:  let opc=[{i1:$("<div>").addClass("wrapper").html($("<img>").attr({"src":"/images/newuser.jpg"}).addClass("cover-image")),
                                 i2:$("<div>").addClass("title new"),
                                 i3:$("<img>").attr({"src":"/images/new4.png"}).addClass("character"),
-                                $_dat:[$nuevoCli,`<h2>${obj.seccion}</h2>`,"65%","60%",obj.id]
+                                $_dat:[$nuevoCli,`<h2>${await  obj.seccion}</h2>`,"65%","60%",await  obj.id]
                                 },
                                 {i1:$("<div>").addClass("wrapper").html($("<img>").attr({"src":"/images/actualizar.png"}).addClass("cover-image")),
                                 i2:$("<div>").addClass("title upd"),
@@ -76,12 +76,12 @@ function onApiLoad(_url) {
             else $("#col").html("")             
         })
 
-       d = $("#fileuploader").uploadFile({url:"/uploadFile",fileName:"misFiles",allowedTypes:"png,jpg,jpeg,bmp,zip",showPreview:true,previewHeight:"50px",previewWidth:"auto",autoSubmit:false,showAbort:true,showCancel:true,statusBarWidth:100,dragdropWidth:800,cliente:_dat[4],uploadButtonClass:"botonSubir",dragDropContainerClass:"dragDropEvi",onSubmit: function(obj,xhr){  console.log(obj,xhr)  }})
+       d = $("#fileuploader").uploadFile({url:"/uploadFile",fileName:"misFiles",allowedTypes:"png,jpg,jpeg,bmp,zip",showPreview:true,previewHeight:"50px",previewWidth:"auto",autoSubmit:false,showAbort:true,showCancel:true,statusBarWidth:100,dragdropWidth:800,cliente:_dat[4],uploadButtonClass:"botonSubir",dragDropContainerClass:"dragDropEvi",onSelect: function(files){console.log( $(files))},onSubmit: function(obj,xhr){  console.log(obj,xhr)  }})
         $(".ajax-upload-dragdrop span").css("color","rgba(0,0,0,0.7)")
         $(".ajax-upload-dragdrop").append($(".ajax-file-upload-container")).css("display","inline-block").append(_div("crear","btn btn-ceear","Crear").click(()=>{ d.startUpload()  }) )
 
 
-        $("#upload-evidencias").uploadFile({url:"/uploadFile",fileName:"misFiles",allowedTypes:"png,jpg,jpeg,bmp,mp4,avi,flv",showPreview:true,previewHeight:"50px",previewWidth:"auto",autoSubmit:true,showAbort:true,showDelete:false,statusBarWidth:100,uploadButtonClass:"botonSubir",dragDropContainerClass:"dragDropEvi"})
+        $("#upload-evidencias").uploadFile({url:"/uploadFile",fileName:"misFiles",allowedTypes:"png,jpg,jpeg,bmp,mp4,avi,flv",showPreview:true,previewHeight:"50px",previewWidth:"auto",autoSubmit:false,showAbort:true,showDelete:true,statusBarWidth:100,uploadButtonClass:"botonSubir",dragDropContainerClass:"dragDropEvi"})
        
 
 }

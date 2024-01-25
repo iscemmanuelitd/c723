@@ -14,15 +14,16 @@ router.post('/', function(req, res, next) {
     let a = files.misFiles
     a.forEach(e=>{
            var newpath = `uploadFile\\INE\\${cliente}\\${e.originalFilename}`
- 
-    fs.rename(e.filepath, newpath, function (err) {
-      if (err){res.write({estatus:false,mensaje:`Ocurrio un erro al subir la imagen: ${err}`})
-res.end()}
-    });
-
+          fs.rename(e.filepath, newpath, function (err) {
+                  if (err){
+                            res.write({estatus:false,mensaje:`Ocurrio un erro al subir la imagen: ${err}`})
+                            res.end()
+                          }
+            });
   }); // foreach
 
  res.write({estatus:true,mensaje:`Las imagenes se guardaron correctamente`});
-      res.end();
+  res.end();
+});
 });
 module.exports = router;

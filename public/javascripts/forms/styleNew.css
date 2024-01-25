@@ -15,7 +15,7 @@ h3{
 .dragDropEvi{
   position: relative;
   border:2px dashed #afafb8;
-  width: 100% !important;
+  max-width: 50%;
   min-height: 40px;
   text-align: center;
   padding: 6px;
@@ -71,24 +71,6 @@ h3{
   width:95%
 }
 
-@media only screen and (max-width: 500px) {
-  .alertify  .ajs-dialog {
-    width: 90%;
-    height: 85%;
-}
-.dragDropEvi{
-  max-width: max-content;
-}
-}
-@media only screen and (min-width: 501px) {
-  .alertify  .ajs-dialog{
-    min-width: 70%;
-    min-height: 75%;
-  }
-  .dragDropEvi{
-    max-width: max-content;
-  }
-}
 
 @media only screen and (min-width: 801px) {
   .alertify  .ajs-dialog{
@@ -96,9 +78,40 @@ h3{
     min-height: 65%;
   }
   .dragDropEvi{
-    max-width: max-content;
+    max-width: 700px;
   }
 }
+@media only screen and (min-width: 501px) {
+  .alertify  .ajs-dialog{
+    min-width: 70%;
+    min-height: 75%;
+  }
+  .dragDropEvi{
+    max-width: 400px;
+  }
+}
+
+@media only screen and (min-width: 400px) {
+  .alertify  .ajs-dialog {
+    min-width: 90%;
+    min-height: 85%;
+}
+
+}
+
+@media only screen and (min-width: 100px) {
+  .alertify  .ajs-dialog {
+    max-width: 100%;
+    width: 99%;
+    height: 91%;
+}
+.dragDropEvi{
+  min-width: 42% ;
+}
+}
+
+
+
 
 
 
@@ -303,8 +316,6 @@ label{
 */
 .ajax-upload-dragdrop {
   border: 2px dashed lightgray;
-}
-.element.style {
 }
 .ajax-file-upload-progress{
   width: 100px;

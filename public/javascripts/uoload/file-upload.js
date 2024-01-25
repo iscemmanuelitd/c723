@@ -91,10 +91,11 @@
             previewWidth: "100%",
             extraHTML:false,
             uploadQueueOrder:'top',
-            headers: {}
+            headers: {},
+            cliente:0
         }, options);
 
-        console.log(s.cliente)
+        
         this.fileCounter = 1;
         this.selectedFiles = 0;
         var formGroup = "ajax-file-upload-" + (new Date().getTime());
@@ -102,6 +103,7 @@
         this.errorLog = $("<div></div>"); //Writing errors
         this.responses = [];
         this.existingFileNames = [];
+        this.cliente=s.cliente
         if(!feature.formdata) //check drag drop enabled.
         {
             s.dragDrop = false;

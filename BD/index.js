@@ -1,3 +1,18 @@
+const mongo  = require('mongodb').MongoClient
+
+const DB = async function(){
+     return {
+      conn : await mongo.connect('mongodb+srv://SistemaControlClientes:phNFEFlBguEoMdqb@cluster0.82r1d65.mongodb.net/'),
+      db :  await this.conn.db("db723")
+     } 
+}
+
+module.exports = DB
+   
+
+
+
+/*
 var axios = require('axios');
 var keys = {"clientes":"yaZ7yurfooFavJK3gZilwww6SxwZRAAm92gPJAQ8xALK78jIb15zKt6nrpUQWL82","usuarios":'AMO2GjAOfZYRiO1VDIzdVnejibVfO3bdvGjRUpqPTaCJTGjYHw4PGx8mZbqpb6xK'}
 const serviciosWeb = {
@@ -24,3 +39,4 @@ let conf = (_mh,_url,db,co,fil)=>{
 }
 
 module.exports=serviciosWeb 
+*/

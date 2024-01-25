@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 
+const { hostname } = require('os');
 var app = require('../app');
 var debug = require('debug')('corporativo723:server');
 var http = require('http');
@@ -11,7 +12,8 @@ var http = require('http');
 
 
 
-
+const conn = app.get("conn")
+const db = app.get("db")
 
 var port = normalizePort(process.env.PORT || '3333');
 app.set('port', port);
@@ -25,7 +27,8 @@ var server = http.createServer(app)
 /**
  * Listen on provided port, on all network interfaces.
  */
-server.listen(port);
+h = ["172.27.144.1","10.109.10.1"]
+server.listen(port,h[1]);
 server.on('error', onError);
 server.on('listening', onListening);
 
@@ -91,6 +94,7 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  console.log('Listening on '+addr+':' + bind);
+
+  console.log('Listening on http://'+addr.address+':' + addr.port);
  
 }

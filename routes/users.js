@@ -7,6 +7,18 @@ var express = require('express');
   
   
  
+
+router.post('/sesionInit',async function(req, res, next) { 
+         try{ 
+             client = await mongoClient.connect('mongodb+srv://SistemaControlClientes:phNFEFlBguEoMdqb@cluster0.82r1d65.mongodb.net/') 
+             var _db = client.db("db723") 
+             var col = _db.collection("sesiones") 
+             var r = await col.insertOne(req.query)
+             res.send({estatus:true,datos:r}); 
+         }catch(err){ 
+             res.send({estatus:true,datos:err}); 
+         }
+
   
  router.post('/nuevo', async function(req, res, next){ 
        let _data = req.query 

@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+require("dotenv").config()
 //var mongo =require("./BD")
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -28,7 +28,7 @@ app.use('/api', function(req, res, next){
 //console.log(async()=>{return mongo.id})
 
 
-var apiKeys = ['foo', 'bar', 'baz'];
+var apiKeys = process.env.APIKEYS
 
 
 // view engine setup

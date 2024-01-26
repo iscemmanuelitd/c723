@@ -21,6 +21,6 @@
     "morgan": "~1.9.1",
     "node-fetch": "^3.3.2",
     "nodemon": "^3.0.2",
-    "dotenv": ^1.0.0"
+    "dotenv": "^1.0.0"
   }
 }

@@ -38,7 +38,7 @@ $( document ).ready(function() {
 
 
 
-function onAutenticar(usuario,contra){
+function onAutenticar(usuario="", contra=" sdfds",extra=2558,varible){
   $("#modal").removeClass("ocultar")
   $.get(`/users/autenticar/${usuario}/${contra}`)
     .done(json=>{
@@ -51,3 +51,8 @@ function onAutenticar(usuario,contra){
       $("#modal").addClass("ocultar")
     })  
 }
+
+
+
+onAutenticar("dsdds","4665",33565)
+onAutenticar(extra=33565)

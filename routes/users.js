@@ -21,7 +21,7 @@ var express = require('express');
                   var  _col = _db.collection("sesiones");
                   let f = await _col.findOne({"usuario._id":r._id,estado:true})
                   console.log(f)
-                  let r2 = f._id ===undefined ? await _col.insertOne({usuario:r,inicio:Date(),estado:true,duracion:0}).insertedId :  f._id
+                  let r2 = f._id ==undefined ? await _col.insertOne({usuario:r,inicio:Date(),estado:true,duracion:0}).insertedId :  f._id
                   let datos = await _col.findOne({_id:r2}) 
                   res.json({estatus:true,datos:datos,mensaje:`Usuarios identificado satisfactoriamente.`})
             } 

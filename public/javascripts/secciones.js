@@ -103,11 +103,6 @@ $(function () {
         }
     });
     
-    $(".ajs-footer").click(function(){
-        console.log("mamalo")
-        console.log(d)
-       console.log(d.getUrlParameter("xx"))
-    })
 });
 
 

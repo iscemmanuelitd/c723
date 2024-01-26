@@ -33,7 +33,7 @@ function _sec(_i){
 }
 
 $(document).ready(function() {
-    
+  
     
 });
 
@@ -88,13 +88,15 @@ function onApiLoad(_url) {
 
 
 
+
 $(function () {
     $('.ah-tab-wrapper').horizontalmenu({
         itemClick : function(item) {
             secc = item[0].childNodes[0].data
             _idx = $(item).index() 
-            $('.ah-tab-content-wrapper .ah-tab-content').removeAttr('data-ah-tab-active');
-            $('.ah-tab-content-wrapper .ah-tab-content:eq(' + _idx + ')').attr('data-ah-tab-active', 'true')
+            console.log()
+            $('.ah-tab-content-wrapper .ah-tab-content').css("height","none").removeAttr('data-ah-tab-active');
+            $('.ah-tab-content-wrapper .ah-tab-content:eq(' + _idx + ')').attr('data-ah-tab-active', 'true').css({"height":($(document).height()-200)+"px"})
             .html(_sec(_idx))
 
              return false; //if this finction return true then will be executed http request

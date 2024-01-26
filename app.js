@@ -4,13 +4,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-
+//var mongo =require("./BD")
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var colCPRouter = require('./routes/coloniasCP');
 var upload =require("./routes/uploadFile");
 var cliente = require("./routes/clientes");
-var mongo =require("./BD")
+
 
 
 var app = express();
@@ -20,12 +20,12 @@ app.use('/api', function(req, res, next){
   if (!key) return next(error(400, 'api key required'));
   if (apiKeys.indexOf(key) === -1) return next(error(401, 'invalid api key'))
   req.key = key;
-mongo.db("db723").ping()
+//mongo.db("db723").ping()
 
   next();
 });
 
-console.log(async()=>{return mongo.id})
+//console.log(async()=>{return mongo.id})
 
 
 var apiKeys = ['foo', 'bar', 'baz'];

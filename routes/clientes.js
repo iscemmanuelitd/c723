@@ -1,22 +1,31 @@
 var express = require('express');
 var router = express.Router();
+const mongoClient  = require('mongodb').MongoClient
 const msgError = {estatus:false,mensaje:"Fallo la conexion a la BD o el servidor de Servicios Web se encuentra apagado"}
+let client=null
 /*  SistemaControlClientes       phNFEFlBguEoMdqb   */
+
 
 router.post('/newID',async function(req, res, next) {
         try{
-            res.send(await db.get("clientes").countDocuments()+1);
+            client = await mongoClient.connect('mongodb+srv://SistemaControlClientes:phNFEFlBguEoMdqb@cluster0.82r1d65.mongodb.net/')
+            var _db = client.db("db723")
+            var col = _db.collection("clientes")
+            var r = await col.countDocuments()+1
+            res.send({estatus:true,datos:r});
         }catch(err){
-            console.log(err)
-            res.send(0);
+            res.send({estatus:true,datos:err});
         }
 });
 
 router.post('/nuevo', async function(req, res, next){
       let _data = req.query
       try{
-            _data['_id'] = await db.get("clientes").countDocuments()+1
-            let r = await db.clientes.insertOne(_data)
+            console.log(_data)
+            var _db = client.db("db723")
+            var col = _db.collection("clientes")
+            _data['_id'] = await col.countDocuments()+1
+            let r = await col.insertOne(_data)
             res.send({estatus:true,mensaje:"Cliente agregado satisfactoriamente"})
       }catch(errMsg){
             console.log(errMsg)
@@ -27,13 +36,13 @@ router.post('/nuevo', async function(req, res, next){
 
 router.get('/buscar/:nombre', async function(req, res, next){
       let _data = req.params
-      console.log(app.get("conn"))
-      //const db = await DB.db
       try{
-            let r = await db.clientes.findOne(_data)
-            c= r.toArray().length
-            if(c>0) res.send({estatus:true,datos:r,mensaje:`Se encontraron ${c} coincidencias con su busqueda`})
-            else res.send({estatus:false,mensaje:"Cliente no encontrado."})
+            var _db = client.db("db723")
+            var col = _db.collection("clientes")
+            let r = await col.find(_data)
+            console.log(r._id)            
+            if(r._id === undefined) res.send({estatus:false,mensaje:"Cliente no encontrado."})   
+            else res.send({estatus:true,datos:r,mensaje:`Se encontraron coincidencias con su busqueda`})
       }catch(err){
             console.log(err)
             res.send(msgError)

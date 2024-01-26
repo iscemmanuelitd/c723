@@ -61,8 +61,8 @@ function _selec(id,clase,opc,sel){
 
 
 
-function valida(){
-    $("#fileuploader").getUrlParameter("x")
+function valida(d){
+   d.getUrlParameter("x")
 }
 
 /*

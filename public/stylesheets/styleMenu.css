@@ -8,19 +8,22 @@
     background-repeat: no-repeat;
     background-position-x: calc(50%);
     background-position-y: calc(50%);
-    background-size: 50%;
+    background-size: 45%;
     opacity: 0.3;
     position: absolute;
-    right: 0%;
-    left: 0%;
-    height: 100%;
+    right: 0px;
+    left: 0px;
+    top:0px;
+    bottom: 0px;
     z-index: -1;
     /*border: 1px solid red;*/
 }
 .content{
+    position: relative;
     max-width: 1170px;
     margin: auto;
     padding: 0 15px;
+    height: 70%;
 }
 fieldset{
    padding: 3px 30px;

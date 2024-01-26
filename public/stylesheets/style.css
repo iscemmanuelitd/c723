@@ -1,8 +1,8 @@
 
 body{
   background-image: url("/images/main.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-size: 100%;
+  background-repeat: repeat-y;
 }
 #modal{
   position: absolute;
@@ -192,10 +192,8 @@ body{
 }
 
 
-ah-tab-content[data-ah-tab-active="true"] {
-  display: flex;
-  animation: modoCel 1s forwards ;
-}
+
+
 
 .blanco{color:white;  cursor:pointer;}
 .negro{color:black;  cursor:pointer;}
@@ -205,7 +203,9 @@ ah-tab-content[data-ah-tab-active="true"] {
       100%{ display: inline-flex;  }
 }
 
-@media only screen and (max-width: 600px) {
-
+@media only screen and (max-width: 770px) {
+  .ah-tab-content[data-ah-tab-active="true"]{
+      overflow-y: scroll
+  }  
 }
 

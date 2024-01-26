@@ -2,16 +2,16 @@ var express = require('express');
 var router = express.Router();
 const mongo  = require('mongodb').MongoClient
 
-let opc={}  
-    opc["conn"] =  async ()=>{
-             return  await mongo.connect('mongodb+srv://SistemaControlClientes:phNFEFlBguEoMdqb@cluster0.82r1d65.mongodb.net/')
-}
+let opc={
+         _db : async ()=>{
+             await mongo.connect('mongodb+srv://SistemaControlClientes:phNFEFlBguEoMdqb@cluster0.82r1d65.mongodb.net/')
+             var db = mongo.db("db723")   
+             return db
+              },
+        _id: async ()=>{  return  await this._db.collection("clientes").countDocuments()+1}
+      }
 
-opc["id"] = async (req,res,next)=>{
-            res.send(await opc.conn.db("db723").collection("clientes").countDocuments())
-}
-
-
+console.log(opc)
 
 module.exports = opc
    

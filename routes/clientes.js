@@ -8,6 +8,7 @@ let client=null
 
 
 router.post('/newID',async function(req, res, next) {
+      res.setHeader()
         try{
             client = await mongoClient.connect(process.env.URL_DB)
             var _db = client.db("db723")

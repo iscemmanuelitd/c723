@@ -42,7 +42,11 @@ app.use("/cliente",cliente)
 
 var apiKeys = process.env.APIKEYS
 
-
+app.use((req, res) => {
+  const ip = res.socket.remoteAddress;
+  const port = res.socket.remotePort;
+  res.end(`Your IP address is ${ip} and your source port is ${port}.`);
+})
 
 // caDFSS
 app.use(function(req, res, next) {

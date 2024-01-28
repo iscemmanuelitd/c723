@@ -1,22 +1,24 @@
-var express = require('express');
-var router = express.Router();
-const mongo  = require('mongodb').MongoClient
+/*
+require("dotenv").config()
 
-let opc={
-         _db : async ()=>{
-             await mongo.connect('mongodb+srv://SistemaControlClientes:phNFEFlBguEoMdqb@cluster0.82r1d65.mongodb.net/')
-             var db = mongo.db("db723")   
-             return db
-              },
-        _id: async ()=>{  return  await this._db.collection("clientes").countDocuments()+1}
-      }
-
-console.log(opc)
-
-module.exports = opc
-   
-
-
+const Mongo = {           
+            mongoClient: require('mongodb').MongoClient,
+            client : await mongoClient.connect(process.env.URL_DB),
+            mDb : opc.client.db(db),
+            mCol : opc.mDb.collection(col),
+            dame:async (strCol,_filter,_proy)=>{
+                  let res = await opc.mCol.find({})
+                  //.find(JSON.stringify(_filter),_proy)
+                        
+                        return res == null ? {estatus:false,sms:`No se encontro ningun ${strCOl}. Verifique que sus parametros sean corectos`}:{estatus:true,datos:res,sms:"Successfull"}
+               },
+               insertar: async (_strCol,_datos)=>{
+                        opc.mCol = opc.mDb.collection(_strCol)
+                        let res = await opc.mCol.insertOne(_datos)
+                        return res == null ? {estatus:false,sms:`No se pudo insertar el ${strCOl}. Verifique que sus datos sean corectos`}:{estatus:true,datos:res,sms:"Successfull"}
+               }
+            }
+module.exports = Mongo
 
 /*
 var axios = require('axios');

@@ -2,33 +2,23 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser')
 var logger = require('morgan');
 require("dotenv").config()
-//var mongo =require("./BD")
+
+
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var colCPRouter = require('./routes/coloniasCP');
-var upload =require("./routes/uploadFile");
+var upload = require("./routes/uploadFile");
 var cliente = require("./routes/clientes");
-
 
 
 var app = express();
 
-app.use('/api', function(req, res, next){
-  var key = req.params['api-key'];
-  if (!key) return next(error(400, 'api key required'));
-  if (apiKeys.indexOf(key) === -1) return next(error(401, 'invalid api key'))
-  req.key = key;
-//mongo.db("db723").ping()
-
-  next();
-});
-
-//console.log(async()=>{return mongo.id})
 
 
-var apiKeys = process.env.APIKEYS
 
 
 // view engine setup
@@ -38,8 +28,11 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));                
-app.use(cookieParser());          
+app.use(cookieParser()); 
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())         
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -47,6 +40,7 @@ app.use('/coloniasCP',colCPRouter);
 app.use("/uploadFile",upload)
 app.use("/cliente",cliente)
 
+var apiKeys = process.env.APIKEYS
 
 
 

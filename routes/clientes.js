@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const mongoClient  = require('mongodb').MongoClient
+require("dotenv").config()
 const msgError = {estatus:false,mensaje:"Fallo la conexion a la BD o el servidor de Servicios Web se encuentra apagado"}
 let client=null
 /*  SistemaControlClientes       phNFEFlBguEoMdqb   */
@@ -8,7 +9,7 @@ let client=null
 
 router.post('/newID',async function(req, res, next) {
         try{
-            client = await mongoClient.connect('mongodb+srv://SistemaControlClientes:phNFEFlBguEoMdqb@cluster0.82r1d65.mongodb.net/')
+            client = await mongoClient.connect(process.env.URL_DB)
             var _db = client.db("db723")
             var col = _db.collection("clientes")
             var r = await col.countDocuments()+1
@@ -19,9 +20,11 @@ router.post('/newID',async function(req, res, next) {
 });
 
 router.post('/nuevo', async function(req, res, next){
-      let _data = req.query
+      let _data = req.body
       try{
-            console.log(_data)
+            _data.domicilio = JSON.parse(_data.domicilio)
+            _data.personales = JSON.parse(_data.personales)
+            client = await mongoClient.connect(process.env.URL_DB)
             var _db = client.db("db723")
             var col = _db.collection("clientes")
             _data['_id'] = await col.countDocuments()+1

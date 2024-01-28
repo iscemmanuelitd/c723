@@ -32,7 +32,7 @@ valida = alertify.dialog('genericDialog',function(){
         },
         callback:function(closeEvent){
             if(closeEvent.index==0)
-                 onAutenticar($("#usuario").val(),hex_md5($("#contra").val()))
+                 onAutenticar($("#usuario").val(),hex_md5($("#contra").val()),"form")
             else
                location.reload()
         },
@@ -51,14 +51,18 @@ guardar = alertify.dialog("dialogGuardar",function factory(){
         },
         setup:function(){
             return {
-                buttons:[{text:"Guardar", key:10,invokeOnClose: false},{text:"Cancelar",key:27,invokeOnClose: true}],
-                options:{title:"Nuevo Cliente",basic:false,closable:true,closableByDimmer:true,resizable:true,frameless:false},
+               // buttons:[{text:"Guardar", key:10,invokeOnClose: true,className: alertify.defaults.theme.ok},{text:"Cancelar",key:27,invokeOnClose: true,className: alertify.defaults.theme.cancel}],
+                options:{title:"Nuevo Cliente",basic:false,closable:false,closableByDimmer:true,resizable:true,frameless:false},
                 
             }
         },
         prepare: function(){
             this.setContent(this.contenido)
         },
-        callback:function(closeEvent){ console.log(closeEvent)}        
+        callback:function(closeEvent){
+            console.log(closeEvent.index)
+            if(closeEvent.index==0)
+                $("#guardar").click();
+        }        
     }
 })

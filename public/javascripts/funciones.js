@@ -1,4 +1,8 @@
-
+function onApiLoad(_url) {
+  var embed = document.createElement('script');
+  embed.src = _url
+  document.body.appendChild(embed);
+}
 
 sesion = localStorage.getItem("sesion")
 establecerSesion = function(){var _s = JSON.parse(localStorage.getItem("sesion"));  var su = JSON.parse(_s.usuario);   sesion=JSON.stringify(_s);  $(".lbl_usu").html($("<h4>").html(su.nombre+" "+su.paterno+" "+su.materno).addClass("usuarioLogueado") )}
@@ -6,7 +10,9 @@ let $inicio = $("<div>").addClass("x")
 let opc = [{texto:"Inicio",icono:"home"},{texto:"Clientes",icono:"clientes"},{texto:"Prestamos",icono:"prestamos"},{texto:"Informes",icono:"info"},{texto:"Acerca de",icono:"acerca"}]
 estilo={"position":"fixed","left":"1px","top":"0","padding":"0px 1px","z-index":"0","opacity":"0.2"}
 let login=null
+
 $( document ).ready(function() {
+  onApiLoad("./javascripts/alertas.js")
     let $items = $("<div>").addClass("ah-tab-wrapper") 
     let $lista = $("<div>").addClass("ah-tab")
     let $contenido = $("<div>").addClass("ah-tab-content-wrapper")
@@ -23,7 +29,7 @@ $( document ).ready(function() {
             .html($("<div>").addClass("login").html($("<input>").attr({"id":"usuario","type":"text","placeholder":"Usuario","required":"true"})))
           .append($("<div>").addClass("login").html($("<input>").attr({"id":"contra","type":"password","placeholder":"Contraseña","required":"true"}))))
           
-          login = alertify.genericDialog($('#loginForm')[0]).set({'selector':'input[type="text"]',frameless:false,"oncancel":function(){return true}});
+          login = alertify.confirm($('#loginForm')[0]).set({'selector':'input[type="text"]',frameless:false,"onok":function(cE){onAutenticar($("#usuario").val(),hex_md5($("#contra").val()),"form"); return false},"oncancel":function(){alertify.error("Cancelado");location.reload() }});
           login.set("resizable",true).resizeTo("50%",240)
           $(".ajs-dialog").addClass("fondoForms p35")
     }else{     
@@ -40,19 +46,24 @@ $( document ).ready(function() {
 
 
 function onAutenticar(usuario,contra,viene=""){
-  console.log(viene)
-  $("#modal").removeClass("ocultar")
+  if(viene=="form" && (usuario=="" || contra=='d41d8cd98f00b204e9800998ecf8427e')){  alertify.error("Ambos campos son  requeridos ") ;   login.set({transition:"slide"}); return false}
+  
+   
+  $("#modal").removeClass("ocultar").css("z-index","999999")
   $.get(`/users/autenticar/${usuario}/${contra}`)
     .done(json=>{
       if(json.estatus){
         localStorage.setItem("sesion",JSON.stringify(json.datos))
-        alertify.notify(json.mensaje, 'success', 2, alertify.notify("Iniciando sesión","alert",5,establecerSesion())); 
+        alertify.notify(json.mensaje, 'success', 2, alertify.notify("Iniciando sesión","alert",5, ()=>{ establecerSesion(); } )); 
+        alertify.confirm().closeOthers(); 
       }else{
-         alertify.notify(json.mensaje,'error',5) //,location.reload())
+         alertify.notify(json.mensaje,'error',5,()=>{  location.reload()  })
       }
-      alertify.confirm().destroy();
-      $("#modal").addClass("ocultar");
+      $("#modal").addClass("ocultar");      
+    }).fail(err=>{
+      $("#modal").addClass("ocultar");      
     })  
+    
 }
 
 

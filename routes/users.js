@@ -29,12 +29,13 @@ router.use('/autenticar/:usuario/:contra', function (err,req, res,next) {
        try{ 
             
             _data["estatus"]=true
+            console.log(r._data)  
             client  = await mongoClient.connect(process.env.URL_DB)
              var _db = client.db("db723") 
              var col = _db.collection("usuarios") 
              let r = await col.findOne(_data) 
-                      
-             
+            
+             console.log(r._id)
              
              if(r._id == undefined) {res.json({estatus:false,mensaje:"El usuario o la contraseña no coinciden con ningúno de nuestros usuarios Verifique sus datos o comuníquese con el administrador del sistema"}) }
              else {  

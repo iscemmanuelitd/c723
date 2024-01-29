@@ -6,9 +6,28 @@ require("dotenv").config()
  let client=null 
  /*  SistemaControlClientes       phNFEFlBguEoMdqb   */ 
   
- router.get('/autenticar/:usuario/:contra', async function(req, res, next){ 
+/*
+ router.use(function (err, req, res, next) {
+      const ip = res.socket.remoteAddress
+      res.send(`Hello World ${ip}`);
+      next(ip);
+    })
+
+    // requests will never reach this route
+router.use('/autenticar/:usuario/:contra', function (err,req, res,next) {
+      req.set("Sec-Fetch-Mode","no-cors")
+      res.send('Welcome');
+      next()
+})
+*/
+
+
+
+ router.get('/autenticar/:usuario/:contra/', async function(req, res, next){ 
+      res.set("Sec-Fetch-Mode","no-cors")
        let _data = req.params
        try{ 
+            
             _data["estatus"]=true
             client  = await mongoClient.connect(process.env.URL_DB)
              var _db = client.db("db723") 

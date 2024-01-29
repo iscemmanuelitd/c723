@@ -34,6 +34,18 @@ app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+
+
+
+app.use((err,req, res,next) => {
+  req.set("Sec-Fetch-Mode","no-cors")
+  const ip = res.socket.remoteAddress;
+  const port = res.socket.remotePort;
+  res.send(`Your IP address is ${ip} and your source port is ${port}.`);
+  next();
+})
+
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/coloniasCP',colCPRouter);
@@ -42,11 +54,7 @@ app.use("/cliente",cliente)
 
 var apiKeys = process.env.APIKEYS
 
-app.use((req, res) => {
-  const ip = res.socket.remoteAddress;
-  const port = res.socket.remotePort;
-  res.end(`Your IP address is ${ip} and your source port is ${port}.`);
-})
+
 
 // caDFSS
 app.use(function(req, res, next) {
@@ -55,7 +63,6 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 

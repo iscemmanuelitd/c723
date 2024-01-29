@@ -8,19 +8,21 @@ const { hostname } = require('os');
 var app = require('../app');
 var debug = require('debug')('corporativo723:server');
 var http = require('http');
-
+require("dotenv").config()
 
 
 
 var port = normalizePort(process.env.PORT || '3333');
+
+
 app.set('port', port);
+
 
 /**
  * Create HTTP server.
  */
 
 var server = http.createServer(app)
-
 /**
  * Listen on provided port, on all network interfaces.
  */

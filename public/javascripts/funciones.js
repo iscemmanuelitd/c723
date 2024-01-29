@@ -48,7 +48,7 @@ function onAutenticar(usuario,contra,viene=""){
         localStorage.setItem("sesion",JSON.stringify(json.datos))
         alertify.notify(json.mensaje, 'success', 2, alertify.notify("Iniciando sesión","alert",5,establecerSesion())); 
       }else{
-         alertify.notify(json.mensaje,'error',5,location.reload())
+         alertify.notify(json.mensaje,'error',5) //,location.reload())
       }
       alertify.confirm().destroy();
       $("#modal").addClass("ocultar");

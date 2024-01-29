@@ -44,25 +44,14 @@ valida = alertify.dialog('genericDialog',function(){
 
 
 
-guardar = alertify.dialog("dialogGuardar",function factory(){
-    return {
-        main:function(conte){
-            this.contenido = conte;
-        },
-        setup:function(){
-            return {
-               // buttons:[{text:"Guardar", key:10,invokeOnClose: true,className: alertify.defaults.theme.ok},{text:"Cancelar",key:27,invokeOnClose: true,className: alertify.defaults.theme.cancel}],
-                options:{title:"Nuevo Cliente",basic:false,closable:false,closableByDimmer:true,resizable:true,frameless:false},
-                
-            }
-        },
-        prepare: function(){
-            this.setContent(this.contenido)
-        },
-        callback:function(closeEvent){
-            console.log(closeEvent.index)
-            if(closeEvent.index==0)
-                $("#guardar").click();
-        }        
+function alertas(d){
+    console.log($(d.c).html())
+    alertify.prompt().destroy()
+    let $ALE =  alertify.prompt($(d.c).html())
+    
+    $ALE.set({title:d.t,'resizable':true,onok:function(e,v){alertify.success('You entered: ' +v)},oncancel:function(){ alertify.error('Cancel') },onclosing:function(){  alertify.message('prompt is about to close.')}}).resizeTo(d.w,d.h)
+
+   
     }
-})
+
+

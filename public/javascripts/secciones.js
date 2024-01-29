@@ -1,6 +1,8 @@
 var d=null
 
-
+let conte=$("<div><div><div><div><div></div>")
+conte.addClass("consulCli")
+$(".consulCLi").html("Texto de prueba nomas para llenar esta madre sin tanto esfuerxzo, checaquen mi codigo <BR>")
 function _sec(_i){
     let $divTot = $("<div>");
       
@@ -9,22 +11,25 @@ function _sec(_i){
                 case 1:  let opc=[{i1:$("<div>").addClass("wrapper").html($("<img>").attr({"src":"/images/newuser.jpg"}).addClass("cover-image")),
                                 i2:$("<div>").addClass("title new"),
                                 i3:$("<img>").attr({"src":"/images/new4.png"}).addClass("character"),
-                                $_dat:[$nuevoCli,`<h2>Nuevo Cliente</h2>`,"65%","60%"]
+                                _dat:{id:"new",t:"Nuevo Cliente",c:$nuevoCli,w:"80%",h:"60%"}
+                                //$_dat:[$nuevoCli,`<h2>Nuevo Cliente</h2>`,"65%","60%"]
                                 },
                                 {i1:$("<div>").addClass("wrapper").html($("<img>").attr({"src":"/images/actualizar.png"}).addClass("cover-image")),
                                 i2:$("<div>").addClass("title upd"),
                                 i3:$("<img>").attr({"src":"/images/act1.png"}).addClass("character"),
-                                $_dat:[$mapa,"<h2>Ubicar domicilio</h2>","50%","50%"]
+                                _dat:{id:"act",t:"Actualizar Clientes",c:$mapa,w:"50%",h:"20%"}
+                                //$_dat:[$mapa,"<h2>Ubicar domicilio</h2>","50%","50%"]
                                 },
                                 {i1:$("<div>").addClass("wrapper").html($("<img>").attr({"src":"/images/consultar.png"}).addClass("cover-image")),
                                 i2:$("<div>").addClass("title selec"),
                                 i3:$("<img>").attr({"src":"/images/informe.png"}).addClass("character"),
-                                $_dat:["Proximamente"]
+                                _dat:{id:"consu",t:"Consultar Clientes",c:conte,w:"50%",h:"20%"}
                                 
                                 }
                                 ];
-                        for(let i=0;i<opc.length;i++)
-                            $divTot.append($("<div>").addClass("opcCli").html($("<div>").addClass("card").html(opc[i].i1).append(opc[i].i2).append(opc[i].i3)).click(function(){ventanaForm(opc[i].$_dat)}))
+                        opc.forEach(o=>{   
+                            $divTot.append($("<div>").addClass("opcCli").html($("<div>").addClass("card").html(o.i1).append(o.i2).append(o.i3)).click(()=>{ alertas(o._dat)}) )
+                        })
                         break;
                 default: break;       
             } 
@@ -51,7 +56,7 @@ function onApiLoad(_url) {
     let aleCli = alertify.dialogGuardar($pre.html()).set({title:_dat[1],'resizable':true}).resizeTo('95%','80%')
     $('#a1')[0].click(); 
     
-    $(".ajs-footer").append(_inp("submit","guardar","btnGuardar","",true,"Guardar").click(function(){ $("#validado").click()  }))
+    $(".ajs-dialog").append(_inp("submit","guardar","btnGuardar","",true,"Guardar").click(function(){ $("#validado").click()  }))
     
     $(".simbolMap").click(function(){
         $("#mapaUbi").html(`<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d8389.465641318115!2d-104.65716831932048!3d24.020739017949932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1ses-419!2smx!4v1706169177361!5m2!1ses-419!2smx" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`).toggle(function(){
@@ -59,13 +64,7 @@ function onApiLoad(_url) {
                 width:"400px",
                 height:"300px",
                 border:"1px solid red"
-
-            },2000)
-        })
-        
-    
-    
-    })
+            },2000)})})
 
 
     $("#cveElector").on({
@@ -88,13 +87,15 @@ function onApiLoad(_url) {
             else $("#colonia").html("")             
         })
 
-       d = $("#fileuploader").uploadFile({url:"/uploadFile",fileName:"misFiles",allowedTypes:"png,jpg,jpeg,bmp,zip",showPreview:true,previewHeight:"50px",previewWidth:"auto",autoSubmit:false,showAbort:true,showCancel:true,statusBarWidth:100,dragdropWidth:800,cliente:_dat[4],uploadButtonClass:"botonSubir",dragDropContainerClass:"dragDropEvi",onSelect: function(files){console.log( $(files))},onSubmit: function(obj,xhr){  console.log(obj,xhr)  }})
-        $(".ajax-upload-dragdrop span").css("color","rgba(0,0,0,0.7)")
+       ele = $("#fileuploader").uploadFile({url:"/uploadFile",fileName:"misFiles",allowedTypes:"png,jpg,jpeg,bmp,zip",showPreview:true,previewHeight:"50px",previewWidth:"auto",autoSubmit:false,showAbort:true,showCancel:true,statusBarWidth:100,dragdropWidth:800,cliente:_dat[4],uploadButtonClass:"botonSubir",dragDropContainerClass:"dragDropEvi",onSelect: function(files){console.log( $(files))},onSubmit: function(obj,xhr){  console.log(obj,xhr)  }})        
+       evi =$("#upload-evidencias").uploadFile({url:"/uploadFile",fileName:"misFiles",allowedTypes:"png,jpg,jpeg,bmp,mp4,avi,flv",showPreview:true,previewHeight:"50px",previewWidth:"auto",autoSubmit:false,showAbort:true,showDelete:true,statusBarWidth:100,uploadButtonClass:"botonSubir",dragDropContainerClass:"dragDropEvi"})
+       
+
+
+       
+       $(".ajax-upload-dragdrop span").css("color","rgba(0,0,0,0.7)")
         $(".ajax-upload-dragdrop").append($(".ajax-file-upload-container")).css("display","inline-block").append(_div("crear","btn btn-ceear","Crear").click(()=>{ d.startUpload()  }) )
 
-
-        $("#upload-evidencias").uploadFile({url:"/uploadFile",fileName:"misFiles",allowedTypes:"png,jpg,jpeg,bmp,mp4,avi,flv",showPreview:true,previewHeight:"50px",previewWidth:"auto",autoSubmit:false,showAbort:true,showDelete:true,statusBarWidth:100,uploadButtonClass:"botonSubir",dragDropContainerClass:"dragDropEvi"})
-       
 
 }
 

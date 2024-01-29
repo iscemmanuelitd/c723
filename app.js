@@ -19,8 +19,6 @@ var app = express();
 
 
 
-
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -31,20 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser()); 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())         
-app.use(express.static(path.join(__dirname, 'public')));
-
-
-
-
-
-app.use((err,req, res,next) => {
-  req.set("Sec-Fetch-Mode","no-cors")
-  const ip = res.socket.remoteAddress;
-  const port = res.socket.remotePort;
-  res.send(`Your IP address is ${ip} and your source port is ${port}.`);
-  next();
-})
-
+app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -70,7 +55,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 
 
 

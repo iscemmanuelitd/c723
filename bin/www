@@ -1,10 +1,5 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
-
-const { hostname } = require('os');
 var app = require('../app');
 var debug = require('debug')('corporativo723:server');
 var http = require('http');

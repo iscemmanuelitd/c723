@@ -58,10 +58,10 @@ router.use('/autenticar/:usuario/:contra', function (err,req, res,next) {
       let _data = req.body 
 
       try{ 
-            console.log(req) 
+            console.log(_data) 
             client  = await mongoClient.connect(process.env.URL_DB)
             var _db = client.db("db723") 
-            var col = _db.collection("clientes") 
+            var col = _db.collection("usuarios") 
             _data['_id'] = await col.countDocuments()+1 
             let r = await col.insertOne(_data) 
             res.json({estatus:true,mensaje:"Cliente agregado satisfactoriamente<BR>"+JSON.stringify(r)}) 

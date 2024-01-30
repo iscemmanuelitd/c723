@@ -7,28 +7,28 @@ function _sec(_i){
     let $divTot = $("<div>");
       
             switch(parseInt(_i)){
-                case 0:return "Inicio";
+                case 0: $divTot.html("Inicio"); break;
                 case 1:  let opc=[{i1:$("<div>").addClass("wrapper").html($("<img>").attr({"src":"/images/newuser.jpg"}).addClass("cover-image")),
                                 i2:$("<div>").addClass("title new"),
                                 i3:$("<img>").attr({"src":"/images/new4.png"}).addClass("character"),
-                                _dat:{id:"nuevoCli",t:"Nuevo Cliente",c:$nuevoCli,w:"80%",h:"60%"}
+                                $_dat:{id:"nuevoCli",t:"Nuevo Cliente",$c:$nuevoCli[0].children[0],w:"90%",h:"80%",btn:"Guardar"}
                                 //$_dat:[$nuevoCli,`<h2>Nuevo Cliente</h2>`,"65%","60%"]
                                 },
                                 {i1:$("<div>").addClass("wrapper").html($("<img>").attr({"src":"/images/actualizar.png"}).addClass("cover-image")),
                                 i2:$("<div>").addClass("title upd"),
                                 i3:$("<img>").attr({"src":"/images/act1.png"}).addClass("character"),
-                                _dat:{id:"actualizaCli",t:"Actualizar Clientes",c:$mapa,w:"50%",h:"20%"}
+                                $_dat:{id:"actualizaCli",t:"Actualizar Clientes",$c:$mapa[0],w:"50%",h:"20%",btn:"Salir"}
                                 //$_dat:[$mapa,"<h2>Ubicar domicilio</h2>","50%","50%"]
                                 },
                                 {i1:$("<div>").addClass("wrapper").html($("<img>").attr({"src":"/images/consultar.png"}).addClass("cover-image")),
                                 i2:$("<div>").addClass("title selec"),
                                 i3:$("<img>").attr({"src":"/images/informe.png"}).addClass("character"),
-                                _dat:{id:"muestraCli",t:"Consultar Clientes",c:conte,w:"50%",h:"20%"}
+                                $_dat:{id:"muestraCli",t:"Consultar Clientes",$c:$consultar[0],w:"70%",h:"60%",btn:"Salir"}
                                 
                                 }
                                 ];
                         opc.forEach(o=>{   
-                            $divTot.append($("<div>").addClass("opcCli").html($("<div>").addClass("card").html(o.i1).append(o.i2).append(o.i3)).click(()=>{ alertas(o._dat)}) )
+                            $divTot.append($("<div>").addClass("opcCli").html($("<div>").addClass("card").html(o.i1).append(o.i2).append(o.i3)).click(()=>{ alertas(o.$_dat)}) )
                         })
                         break;
                 default: break;       
@@ -41,27 +41,21 @@ function _sec(_i){
 
 
 
-function alertas(d){
-   // onApiLoad("./javascripts/alertas.js")
-    alertify.confirm().set({title:d.t,'resizable':true,onok:function(e){alertify.success('Inicio de sesion')},oncancel:function(){ alertify.error('Cancel') },onclosing:function(){  alertify.message('prompt is about to close.')}}).setContent($(d.c).html()).resizeTo(d.w,d.h).show()
-    window.showConfirm(d.id);
-    ajusteAle(d.id)
+function alertas($d){
+    console.log($d.$c)
+    alertify.alert().setContent($d.$c).set({"label":$d.btn,"title":$d.t,"resizable":true,"invokeOnCloseOff":true,
+            onok:function(closeEvent){console.log(closeEvent.button.element.innerHTML); 
+                closeEvent.button.element.innerHTML == "Guardar" ? 
+                alertify.confirm("El nuevo cliente se guardará con folio: XXX. ¿Esta seguro de terminar esta acción?").set({onok:(closeEvent)=>{  valida();  alertify.success("Nuevo Cliente guardado");alertify.alert().close()}}) 
+                : alertify.alert().close() 
+                return false;  
+                },
+
+            }).resizeTo($d.w,$d.h).show()
+    ajusteAle($d)()  
+    
 }
 
 
-
-$(document).ready(function() {  
-    $('.ah-tab-wrapper').horizontalmenu({
-        itemClick : function(item) {
-            secc = item[0].childNodes[0].data
-            _idx = $(item).index() 
-            console.log()
-            $('.ah-tab-content-wrapper .ah-tab-content').css("height","none").removeAttr('data-ah-tab-active');
-            $('.ah-tab-content-wrapper .ah-tab-content:eq(' + _idx + ')').attr('data-ah-tab-active', 'true').css({"height":($(document).height()-200)+"px"})
-            .html(_sec(_idx))
-            return false;   //if this finction return true then will be executed http request
-        }
-    })
-})
 
 

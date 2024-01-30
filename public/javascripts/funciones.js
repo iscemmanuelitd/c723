@@ -1,8 +1,3 @@
-function onApiLoad(_url) {
-  var embed = document.createElement('script');
-  embed.src = _url
-  document.body.appendChild(embed);
-}
 
 sesion = localStorage.getItem("sesion")
 establecerSesion = function(){var _s = JSON.parse(localStorage.getItem("sesion"));  var su = JSON.parse(_s.usuario);   sesion=JSON.stringify(_s);  $(".lbl_usu").html($("<h4>").html(su.nombre+" "+su.paterno+" "+su.materno).addClass("usuarioLogueado") )}
@@ -11,8 +6,7 @@ let opc = [{texto:"Inicio",icono:"home"},{texto:"Clientes",icono:"clientes"},{te
 estilo={"position":"fixed","left":"1px","top":"0","padding":"0px 1px","z-index":"0","opacity":"0.2"}
 let login=null
 
-$( document ).ready(function() {
-  onApiLoad("./javascripts/alertas.js")
+$(function(){
     let $items = $("<div>").addClass("ah-tab-wrapper") 
     let $lista = $("<div>").addClass("ah-tab")
     let $contenido = $("<div>").addClass("ah-tab-content-wrapper")
@@ -22,16 +16,15 @@ $( document ).ready(function() {
     $($lista[0].childNodes[0]).attr('data-ah-tab-active', 'true')
     $($contenido[0].childNodes[0]).attr('data-ah-tab-active', 'true')
     $items.html($lista)
-    $(".content").html($items).append($("<div>").addClass("lbl_usu").html("usuario").click(()=>{ alertify.notify(sesion,'custom',10) })).append($contenido)
-                
+    $(".content").html($items).append($("<div>").addClass("lbl_usu").html("usuario").click(()=>{ alertify.notify(sesion,'custom',10) })).append($contenido)                
     if(sesion==null){
-          $("#loginForm").html($("<fieldset>")
-            .html($("<div>").addClass("login").html($("<input>").attr({"id":"usuario","type":"text","placeholder":"Usuario","required":"true"})))
-          .append($("<div>").addClass("login").html($("<input>").attr({"id":"contra","type":"password","placeholder":"Contraseña","required":"true"}))))
-          
-          login = alertify.confirm($('#loginForm')[0]).set({'selector':'input[type="text"]',frameless:false,"onok":function(cE){onAutenticar($("#usuario").val(),hex_md5($("#contra").val()),"form"); return false},"oncancel":function(){alertify.error("Cancelado");location.reload() }});
-          login.set("resizable",true).resizeTo("50%",240)
-          $(".ajs-dialog").addClass("fondoForms p35")
+          let $log = $("<form>").attr("id","loginForm").html(  
+         $("<fieldset>")
+           .append($("<div>").addClass("login").html($("<input>").attr({"id":"usuario","type":"text","placeholder":"Usuario","required":"true"})))
+            .append($("<div>").addClass("login").html($("<input>").attr({"id":"contra","type":"password","placeholder":"Contraseña","required":"true"})))
+          )
+         alertify.confirm().set({title:"Inicio de Sesión",selector:'input[type="text"]',resizable:true,frameless:false,onok:function(cE){onAutenticar($("#usuario").val(),hex_md5($("#contra").val()),"form"); return false;},oncancel:function(){alertify.error("Cancelado");location.reload()}}).setContent($log[0]).resizeTo("50%",240).show()
+         $(".ajs-dialog").addClass("fondoForms p35")
     }else{     
       s=JSON.parse(sesion) 
       ss = JSON.parse(s.usuario)
@@ -39,30 +32,48 @@ $( document ).ready(function() {
 
       }
     
-});
+$('.ah-tab-wrapper').horizontalmenu({
+          itemClick : function(item) {
+              secc = item[0].childNodes[0].data
+              _idx = $(item).index() 
+              console.log()
+              $('.ah-tab-content-wrapper .ah-tab-content').css("height","none").removeAttr('data-ah-tab-active');
+              $('.ah-tab-content-wrapper .ah-tab-content:eq(' + _idx + ')').attr('data-ah-tab-active', 'true').css({"height":($(document).height()-200)+"px"})
+              .html(_sec(_idx))
+              return false;   //if this finction return true then will be executed http request
+          }
+      })
+
+
+    }(jQuery));
+
+
+    $(document).ready(function() {  
+      
+  })
+  
 
 
 
-
-
-function onAutenticar(usuario,contra,viene=""){
+function onAutenticar(usuario,contra,viene){
   if(viene=="form" && (usuario=="" || contra=='d41d8cd98f00b204e9800998ecf8427e')){  alertify.error("Ambos campos son  requeridos ") ;   login.set({transition:"slide"}); return false}
   
    
-  $("#modal").removeClass("ocultar").css("z-index","999999")
-  $.get(`/users/autenticar/${usuario}/${contra}`)
-    .done(json=>{
-      if(json.estatus){
-        localStorage.setItem("sesion",JSON.stringify(json.datos))
-        alertify.notify(json.mensaje, 'success', 2, alertify.notify("Iniciando sesión","alert",5, ()=>{ establecerSesion(); } )); 
-        alertify.confirm().closeOthers(); 
-      }else{
-         alertify.notify(json.mensaje,'error',5,()=>{  location.reload()  })
-      }
-      $("#modal").addClass("ocultar");      
-    }).fail(err=>{
-      $("#modal").addClass("ocultar");      
-    })  
+  $("#modal").removeClass("ocultar")
+  $.post("/users/autenticar",{usuario:usuario,contra:contra,estatus:true})
+  .done(function(r){
+    console.log(r)
+    if(r.estatus){
+      localStorage.setItem("sesion",JSON.stringify(r.datos))
+      alertify.notify(r.mensaje, 'success', 2, alertify.notify("Iniciando sesión","alert",5, ()=>{ establecerSesion(); } )); 
+        }else{
+       alertify.notify(r.mensaje2,'error',5)
+    }
+    $("#modal").addClass("ocultar"); 
+
+
+  })
+    
     
 }
 

@@ -23,14 +23,11 @@ router.use('/autenticar/:usuario/:contra', function (err,req, res,next) {
 
 
 
- router.get('/autenticar/:usuario/:contra/', async function(req, res, next){ 
-      res.set("Sec-Fetch-Mode","no-cors")
-       let _data = req.params
-       try{ 
-            
-            _data["estatus"]=true
-            console.log(r._data)  
-            client  = await mongoClient.connect(process.env.URL_DB)
+ router.post('/autenticar', async function(req,res){ 
+       let _data = req.query
+      // try{ 
+            console.log(_data)  
+            client  = await mongoClient.connect(process.env.URL_DB723)
              var _db = client.db("db723") 
              var col = _db.collection("usuarios") 
              let r = await col.findOne(_data) 
@@ -49,9 +46,9 @@ router.use('/autenticar/:usuario/:contra', function (err,req, res,next) {
                   let datos = await _col.findOne({_id:i}) 
                   res.json({estatus:true,datos:datos,mensaje:`Usuarios identificado satisfactoriamente.`})
             } 
-       }catch(err){ 
-             res.json(msgError) 
-       } 
+      // }catch{ 
+        //     res.json(msgError) 
+      // } 
  }) 
   
 
@@ -60,7 +57,7 @@ router.use('/autenticar/:usuario/:contra', function (err,req, res,next) {
 
       try{ 
             console.log(_data) 
-            client  = await mongoClient.connect(process.env.URL_DB)
+            client  = await mongoClient.connect(process.env.URL_DB723)
             var _db = client.db("db723") 
             var col = _db.collection("usuarios") 
             _data['_id'] = await col.countDocuments()+1 

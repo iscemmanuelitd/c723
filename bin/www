@@ -7,7 +7,7 @@ require("dotenv").config()
 
 
 
-var port = normalizePort(process.env.PORT || '3333');
+var port = normalizePort('3333');
 
 
 app.set('port', port);
@@ -22,7 +22,7 @@ var server = http.createServer(app)
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen(8180);
 server.on('error', onError);
 server.on('listening', onListening);
 
